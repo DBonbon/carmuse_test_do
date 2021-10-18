@@ -286,6 +286,8 @@ class PaintingDetailPage(Page):
         FieldPanel("tags"),
         InlinePanel("categories", label="category"),
         InlinePanel("locations", label="location"),
+        InlinePanel("mediums", label="medium"),
+        InlinePanel("supports", label="support"),
 
         # MultiFieldPanel(
         #     [
