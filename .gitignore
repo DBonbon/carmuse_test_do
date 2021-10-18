@@ -5,3 +5,9 @@ local.py
 *.mo
 .coverage
 media/**
+__pycache__
+*.pyc
+.DS_Store
+*.swp
+/venv/
+.python-version
