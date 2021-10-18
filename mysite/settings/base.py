@@ -31,6 +31,12 @@ INSTALLED_APPS = [
     
     'about',
     'blog',
+    'catalog',
+    'contact',
+    'expo',
+    'flex',
+    'menus',
+    'painter',
     'streams',
 
     'wagtail.contrib.forms',
