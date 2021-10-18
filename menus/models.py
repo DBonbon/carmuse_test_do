@@ -1,67 +1,83 @@
-{# templates/home/home_page.html #}
-{% extends "base.html" %}
+from django.db import models
 
-{% load wagtailcore_tags wagtailimages_tags %}
+# Create your models here.
+"""menus/models.py"""
+from django.db import models
 
-
-<body>
-
-{% block extra_css %}
-
-<style>
-
-
-.card img{
-    height: 100vh;
-    width: auto;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    object-fit: contain;
-}
-
-body{
-    background: #f1e3d3;
-}
-
-.card{
-  color: #202020 ;
-  background-color: #202020  !important;
-}
-
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
-}
+from django_extensions.db.fields import AutoSlugField
+from modelcluster.fields import ParentalKey
+from modelcluster.models import ClusterableModel
+from wagtail.admin.edit_handlers import (
+    MultiFieldPanel,
+    InlinePanel,
+    FieldPanel,
+    PageChooserPanel,
+)
+from wagtail.core.models import Orderable
+from wagtail.snippets.models import register_snippet
 
 
+class MenuItem(Orderable):
 
-</style>
+    link_title = models.CharField(
+        blank=True,
+        null=True,
+        max_length=50
+    )
+    link_url = models.CharField(
+        max_length=500,
+        blank=True
+    )
+    link_page = models.ForeignKey(
+        "wagtailcore.Page",
+        null=True,
+        blank=True,
+        related_name="+",
+        on_delete=models.CASCADE,
+    )
+    open_in_new_tab = models.BooleanField(default=False, blank=True)
 
-{% endblock %}
+    page = ParentalKey("Menu", related_name="menu_items")
+
+    panels = [
+        FieldPanel("link_title"),
+        FieldPanel("link_url"),
+        PageChooserPanel("link_page"),
+        FieldPanel("open_in_new_tab"),
+    ]
+
+    @property
+    def link(self):
+        if self.link_page:
+            return self.link_page.url
+        elif self.link_url:
+            return self.link_url
+        return '#'
+
+    @property
+    def title(self):
+        if self.link_page and not self.link_title:
+            return self.link_page.title
+        elif self.link_title:
+            return self.link_title
+        return 'Missing Title'
 
 
-{% block content %}
+@register_snippet
+class Menu(ClusterableModel):
+    """The main menu clusterable model."""
 
-{% if page.cover %}
-{{ page.cover }}
-{% endif %}
+    title = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from="title", editable=True)
+    # slug = models.SlugField()
 
-{% if page.banner %}
-{{ page.cover }}
-{% endif %}
+    panels = [
+        MultiFieldPanel([
+            FieldPanel("title"),
+            FieldPanel("slug"),
+        ], heading="Menu"),
+        InlinePanel("menu_items", label="Menu Item")
+    ]
 
-{% if page.carousel_images %}
-{% include "home/home_carousel.html" %}
-{% endif %}
-
-
-{% if page.content %}
-{{ page.content }}
-{% endif %}
-
-</body>
-
- {% endblock %}
+    def __str__(self):
+        return self.title

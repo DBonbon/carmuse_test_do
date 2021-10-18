@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     #'contact',
     'expo',
     'flex',
-    #'menus',
+    'menus',
     'painter',
     'streams',
 
