@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     'about',
     'blog',
     'catalog',
-    'contact',
+    #'contact',
     'expo',
     'flex',
     'menus',
