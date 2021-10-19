@@ -57,6 +57,7 @@ register_snippet(PaintingCategory)
 
 # Location
 
+
 class PaintingLocation(models.Model):
     """Painting location for a snippet."""
 
@@ -245,39 +246,35 @@ class PaintingDetailPage(Page):
         #    [StreamFieldPanel('technical_details')]
         # ),
         FieldPanel("tags"),
-        #InlinePanel("categories", label="category"),
-        #InlinePanel("locations", label="location"),
-        #InlinePanel("mediums", label="medium"),
-        #InlinePanel("supports", label="support"),
 
-         MultiFieldPanel(
-             [
-                 FieldPanel("categories", widget=forms.CheckboxSelectMultiple)
-             ],
-             heading="Categories",
-             classname="collapsible collapsed",
-         ),
+        MultiFieldPanel(
+            [
+                FieldPanel("categories", widget=forms.CheckboxSelectMultiple)
+            ],
+            heading="Categories",
+            classname="collapsible collapsed",
+        ),
 
-         MultiFieldPanel([
-             FieldPanel('locations', widget=forms.CheckboxSelectMultiple),
-         ],
-             heading="Location",
-             classname="collapsible collapsed",
-         ),
+        MultiFieldPanel([
+            FieldPanel('locations', widget=forms.CheckboxSelectMultiple),
+        ],
+            heading="Location",
+            classname="collapsible collapsed",
+        ),
 
-         MultiFieldPanel([
-             FieldPanel('mediums', widget=forms.CheckboxSelectMultiple),
-         ],
-             heading="Medium",
-             classname="collapsible collapsed",
-         ),
-        
-         MultiFieldPanel([
-             FieldPanel('supports', widget=forms.CheckboxSelectMultiple),
-         ],
-             heading="Support",
-             classname="collapsible collapsed",
-         ),
+        MultiFieldPanel([
+            FieldPanel('mediums', widget=forms.CheckboxSelectMultiple),
+        ],
+            heading="Medium",
+            classname="collapsible collapsed",
+        ),
+
+        MultiFieldPanel([
+            FieldPanel('supports', widget=forms.CheckboxSelectMultiple),
+        ],
+            heading="Support",
+            classname="collapsible collapsed",
+        ),
         StreamFieldPanel('links'),
         StreamFieldPanel('initial_inventory'),
 
@@ -336,6 +333,7 @@ class PaintingSupport(models.Model):
 
 
 # Medium
+
 @register_snippet
 class PaintingMedium(models.Model):
     """Painting medium for a snippet."""
