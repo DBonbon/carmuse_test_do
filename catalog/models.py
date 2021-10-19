@@ -336,7 +336,6 @@ class PaintingSupport(models.Model):
 
 
 # Medium
-
 @register_snippet
 class PaintingMedium(models.Model):
     """Painting medium for a snippet."""
