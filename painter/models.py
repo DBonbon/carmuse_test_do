@@ -83,7 +83,7 @@ class PainterPage(Page):
 
     painter_image = models.ForeignKey(
         "wagtailimages.Image",
-        blank=False,
+        blank=True,
         null=True,
         related_name="+",
         on_delete=models.SET_NULL,
@@ -93,12 +93,12 @@ class PainterPage(Page):
     ])
     artist_dates = StreamField([
         ('dates', blocks.DateBlock()),
-    ])
-    bio = RichTextField(null=True, features=["bold", "italic"])
-    pitch = RichTextField(null=True, features=["bold", "italic"])
+    ], blank=True, null=True)
+    bio = RichTextField(null=True, blank=True, features=["bold", "italic"])
+    pitch = RichTextField(null=True, blank=True, features=["bold", "italic"])
     links = StreamField([
-         ('link', blocks.ButtonBlock(null=True, blanc=True)),
-    ])
+         ('link', blocks.ButtonBlock()),
+    ], blank=True, null=True)
 
 
     content_panels = Page.content_panels + [
